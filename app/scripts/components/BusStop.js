@@ -7,7 +7,6 @@ var BusStop = React.createClass({
 
     render: function () {
         const data = this.props.data;
-        console.log('data', data);
         const arrivals = data.arrivals;
 
         return (

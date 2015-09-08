@@ -45,10 +45,18 @@ var TflApp = React.createClass({
         mergedBusData = merge(marker, data);
       }
     }).done(function() {
+      this.goToElement('.bus-data-container');
+
       this.setState({
         busData: mergedBusData
       });
     }.bind(this));
+  },
+
+  goToElement: function(className) {
+    $('body').animate({
+      scrollTop: $(className).offset().top
+    }, 1000);
   },
 
   renderBusData: function() {
@@ -92,7 +100,7 @@ var TflApp = React.createClass({
           </ReactGoogleMap>
         </div>
 
-        <div className="col-lg-4">
+        <div className="bus-data-container col-lg-4">
           {this.renderBusData()}
         </div>
 
