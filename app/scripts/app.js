@@ -1,5 +1,5 @@
 
-var React = require('react'),
+var React = window.React = require('react'),
     ReactAddons = require('react/addons'),
     ReactGoogleMap = require('react-google-maps').GoogleMap,
     Marker = require('react-google-maps').Marker,
@@ -7,6 +7,8 @@ var React = require('react'),
     BusStop = require('./components/BusStop'),
     merge = require('lodash/object/merge'),
     mountNode = document.getElementById('app');
+
+var API_URL = 'http://digitaslbi-id-test.herokuapp.com/bus-stops';
 
 var TflApp = React.createClass({
   getInitialState: function () {
@@ -17,7 +19,7 @@ var TflApp = React.createClass({
 
   componentDidMount: function () {
     $.ajax({
-      url: 'http://digitaslbi-id-test.herokuapp.com/bus-stops?northEast=51.52783450,-0.04076115&southWest=51.51560467,-0.10225884',
+      url: API_URL + '?northEast=51.52783450,-0.04076115&southWest=51.51560467,-0.10225884',
       jsonp: 'callback',
       dataType: 'jsonp',
       success: this.onDataReceived
@@ -36,7 +38,7 @@ var TflApp = React.createClass({
     var mergedBusData;
 
     $.ajax({
-      url: 'http://digitaslbi-id-test.herokuapp.com/bus-stops/' + marker.id,
+      url: API_URL + '/' + marker.id,
       jsonp: 'callback',
       dataType: 'jsonp',
       success: function(data) {
@@ -51,11 +53,9 @@ var TflApp = React.createClass({
 
   renderBusData: function() {
     if (this.state.busData) {
-      /* jshint ignore:start */
       return (
         <BusStop data={this.state.busData} />
       );
-      /* jshint ignore:end */
     }
   },
 
