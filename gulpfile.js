@@ -200,7 +200,7 @@ gulp.task('build', ['html', 'buildBundle', 'images', 'fonts', 'extras'], functio
 });
 
 // Heroku
-gulp.task('heroku', ['watch']);
+gulp.task('heroku', ['default']);
 
 // Default task
 gulp.task('default', ['clean', 'build']);
