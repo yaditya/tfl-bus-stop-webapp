@@ -1,6 +1,9 @@
 {
   "name": "tfl-bus-app",
   "version": "0.0.0",
+  "scripts": {
+    "start": "node scripts/app.js"
+  },
   "dependencies": {
     "lodash": "^3.10.1",
     "react-google-maps": "^2.0.3"
