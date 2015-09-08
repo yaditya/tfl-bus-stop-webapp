@@ -1,5 +1,5 @@
 
-var React = window.React = require('react'),
+var React = require('react'),
     ReactAddons = require('react/addons'),
     ReactGoogleMap = require('react-google-maps').GoogleMap,
     Marker = require('react-google-maps').Marker,
@@ -33,7 +33,7 @@ var TflApp = React.createClass({
   },
 
   handle_marker_click: function(marker) {
-    let mergedBusData;
+    var mergedBusData;
 
     $.ajax({
       url: 'http://digitaslbi-id-test.herokuapp.com/bus-stops/' + marker.id,
@@ -50,18 +50,16 @@ var TflApp = React.createClass({
   },
 
   renderBusData: function() {
-    const {busData} = this.state;
-
-    if (busData) {
+    if (this.state.busData) {
+      /* jshint ignore:start */
       return (
-        <BusStop data={busData} />
+        <BusStop data={this.state.busData} />
       );
+      /* jshint ignore:end */
     }
   },
 
   render: function() {
-    const {markers, busData} = this.state;
-
     return (
       <div>
         <div className="col-lg-8">
@@ -76,7 +74,7 @@ var TflApp = React.createClass({
             ref="map"
             defaultZoom={15}
             defaultCenter={{lat: 51.5246159, lng: -0.0718099}}>
-              {markers.map((marker, index) => {
+              {this.state.markers.map((marker, index) => {
                 var position = new google.maps.LatLng(
                   marker.lat,
                   marker.lng

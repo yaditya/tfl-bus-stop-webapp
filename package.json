@@ -1,9 +1,6 @@
 {
   "name": "tfl-bus-app",
   "version": "0.0.0",
-  "scripts": {
-    "postinstall": "gulp build"
-  },
   "dependencies": {
     "lodash": "^3.10.1",
     "react-google-maps": "^2.0.3",
