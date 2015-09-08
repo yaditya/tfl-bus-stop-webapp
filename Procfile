@@ -1,1 +1,1 @@
-gulp: gulp build
+web: gulp watch
