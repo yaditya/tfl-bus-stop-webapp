@@ -199,5 +199,8 @@ gulp.task('build', ['html', 'buildBundle', 'images', 'fonts', 'extras'], functio
         .pipe(gulp.dest('dist/scripts'));
 });
 
+// Heroku
+gulp.task('heroku', 'build');
+
 // Default task
 gulp.task('default', ['clean', 'build']);
