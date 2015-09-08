@@ -1,5 +1,11 @@
 ## TFL Bus Stop Web Application
 
+### Prerequisite
+
+1. Python 2.7
+2. Node
+3. npm
+
 ### How to run the site
 1. `npm install`
 2. `gulp watch`
