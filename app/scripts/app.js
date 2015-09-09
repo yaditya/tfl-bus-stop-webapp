@@ -13,6 +13,8 @@ var API_URL = 'http://digitaslbi-id-test.herokuapp.com/bus-stops';
 var TflApp = React.createClass({
   getInitialState: function () {
     return {
+      errorFound: false,
+      errorMessage: '',
       markers: []
     };
   },
@@ -22,8 +24,9 @@ var TflApp = React.createClass({
       url: API_URL + '?northEast=51.52783450,-0.04076115&southWest=51.51560467,-0.10225884',
       jsonp: 'callback',
       dataType: 'jsonp',
-      success: this.onDataReceived
-    })
+      success: this.onDataReceived,
+      error: this.onError
+    });
   },
 
   onDataReceived: function(data) {
@@ -34,7 +37,19 @@ var TflApp = React.createClass({
     }
   },
 
-  handle_marker_click: function(marker) {
+  onError: function(jqXHR) {
+    if (jqXHR.status === 400) {
+      // Show error on the page
+      this.setState({
+        errorFound: true,
+        errorMessage: jqXHR.errorMessage
+      });
+    }
+  },
+
+  handle_info_click: function(marker, e) {
+    e.preventDefault();
+
     var mergedBusData;
 
     $.ajax({
@@ -53,16 +68,48 @@ var TflApp = React.createClass({
     }.bind(this));
   },
 
+  handle_marker_click: function(marker) {
+    marker.showInfo = true;
+    this.setState(this.state);
+  },
+
+  handle_closeclick: function(marker) {
+    marker.showInfo = false;
+    this.setState(this.state);
+  },
+
+  render_InfoWindow: function(ref, marker) {
+    return (
+      <InfoWindow key={`${ref}_info_window`}
+        onCloseclick={this.handle_closeclick.bind(this, marker)}
+      >
+        <div>
+          <p>Route {marker.id}</p>
+          <p><strong>{marker.name}</strong></p>
+          <a href="#" onClick={this.handle_info_click.bind(this, marker)}>Show arrival times</a>
+        </div>
+      </InfoWindow>
+    );
+  },
+
   goToElement: function(className) {
     $('body').animate({
       scrollTop: $(className).offset().top
-    }, 1000);
+    }, 200);
   },
 
   renderBusData: function() {
     if (this.state.busData) {
       return (
         <BusStop data={this.state.busData} />
+      );
+    }
+  },
+
+  renderError: function() {
+    if (this.state.errorFound) {
+      return (
+        <p className="text-danger">{this.state.errorMessage}</p>
       );
     }
   },
@@ -74,6 +121,7 @@ var TflApp = React.createClass({
           <h3>Tfl Bus App</h3>
           <p>Click the red marker to view the timetable.</p>
 
+          {this.renderError()}
 
           <ReactGoogleMap containerProps={{
               ...this.props,
@@ -94,7 +142,9 @@ var TflApp = React.createClass({
                     ref={ref}
                     position={position}
                     key={ref}
-                    onClick={this.handle_marker_click.bind(this, marker)} />
+                    onClick={this.handle_marker_click.bind(this, marker)}>
+                    {marker.showInfo ? this.render_InfoWindow(ref, marker) : null}
+                  </Marker>
                 );
               })}
           </ReactGoogleMap>
