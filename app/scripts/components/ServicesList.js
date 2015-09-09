@@ -18,7 +18,7 @@ var ServicesList = React.createClass({
             <ul className="list-unstyled">
                 {this.props.data.map(function(marker, i) {
                     return (
-                        <li key={i}><a href="#" onClick={this.handleRouteClick.bind(this, marker)}>{marker.name}</a></li>
+                        <li key={i}><a href="#" onClick={this.handleRouteClick.bind(this, marker)}>{marker.id} {marker.name} {`(${marker.stopIndicator})`}</a></li>
 
                     );
                 }.bind(this))}
