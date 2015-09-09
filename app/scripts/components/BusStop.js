@@ -9,6 +9,8 @@ var BusStop = React.createClass({
         const data = this.props.data;
         const arrivals = data.arrivals;
 
+        if (!arrivals) return null;
+
         return (
             <section className="bus-stop">
                 <header>
@@ -27,7 +29,7 @@ var BusStop = React.createClass({
                     <tbody>
                     {arrivals.map((arrival, index) => {
                         return (
-                            <tr>
+                            <tr key={index}>
                                 <td>{arrival.routeName}</td>
                                 <td>{arrival.destination}</td>
                                 <td>{arrival.estimatedWait}</td>
